@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keesha Ngombo | Data Scientist & Statistician</title>
+    <meta name="description" content="Portfolio of Keesha Orlene Ngombo Mouelet - Data Scientist, Statistician, and Educator building data-driven solutions for sustainable development.">
+    <meta name="author" content="Keesha Ngombo">
+    <meta name="keywords" content="Data Scientist, Statistician, Machine Learning, Python, R, Cleveland State University">
+    <link rel="canonical" href="https://keeshangombo.com">
+    
+    <meta property="og:title" content="Keesha Ngombo | Data Scientist & Statistician">
+    <meta property="og:description" content="Portfolio showcasing data science projects, statistical analysis, and research by Keesha Ngombo.">
+    <meta property="og:type" content="website">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --background: hsl(35, 30%, 97%);
+            --foreground: hsl(220, 25%, 15%);
+            --card: hsl(35, 40%, 98%);
+            --card-foreground: hsl(220, 25%, 15%);
+            --primary: hsl(220, 25%, 18%);
+            --primary-foreground: hsl(35, 30%, 97%);
+            --secondary: hsl(174, 60%, 45%);
+            --secondary-foreground: hsl(35, 30%, 97%);
+            --muted: hsl(35, 15%, 92%);
+            --muted-foreground: hsl(220, 15%, 45%);
+            --accent: hsl(322, 60%, 55%);
+            --accent-foreground: hsl(35, 30%, 97%);
+            --gold: hsl(43, 70%, 55%);
+            --gold-foreground: hsl(220, 25%, 15%);
+            --teal: hsl(174, 60%, 45%);
+            --border: hsl(35, 20%, 88%);
+            --radius: 0.75rem;
+            --shadow-soft: 0 4px 20px hsla(220, 25%, 15%, 0.06);
+            --shadow-card: 0 8px 30px hsla(220, 25%, 15%, 0.08);
+            --shadow-elevated: 0 12px 40px hsla(220, 25%, 15%, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', system-ui, sans-serif;
+            background: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 253, 250, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .navbar-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 5rem;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--foreground);
+            transition: color 0.3s;
+        }
+
+        .logo:hover {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--muted-foreground);
+            border-radius: var(--radius);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent);
+            background: hsla(322, 60%, 55%, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            color: var(--foreground);
+        }
+        .mobile-nav{
+            display: none;
+
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: calc(100vh - 5rem);
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, hsl(35, 35%, 96%) 0%, hsl(30, 30%, 94%) 50%, hsl(35, 25%, 92%) 100%);
+        }
+
+        .hero-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--foreground);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--muted-foreground);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-image-wrapper {
+            display: flex;
+            justify-content: center;
+            animation: fadeInUp 0.6s ease-out 0.15s forwards;
+            opacity: 0;
+        }
+
+        .hero-image-container {
+            position: relative;
+        }
+
+        .hero-image-glow {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, hsla(322, 60%, 55%, 0.3), hsla(174, 60%, 45%, 0.2), hsla(43, 70%, 55%, 0.3));
+            border-radius: 1.5rem;
+            filter: blur(40px);
+            transform: scale(1.1);
+        }
+
+        .hero-image {
+            position: relative;
+            width: 24rem;
+            border-radius: 1.5rem;
+            box-shadow: var(--shadow-elevated);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            font-family: inherit;
+            border-radius: var(--radius);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            box-shadow: var(--shadow-card);
+        }
+
+        .btn-primary:hover {
+            background: hsl(220, 25%, 25%);
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-outline:hover {
+            background: var(--accent);
+            color: var(--accent-foreground);
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: var(--accent-foreground);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .btn-accent:hover {
+            background: hsl(322, 60%, 50%);
+            box-shadow: 0 0 30px hsla(322, 60%, 55%, 0.25);
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: var(--gold-foreground);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .btn-gold:hover {
+            background: hsl(43, 70%, 50%);
+            box-shadow: 0 0 30px hsla(43, 70%, 55%, 0.3);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-ghost:hover {
+            background: var(--accent);
+            color: var(--accent-foreground);
+        }
+
+        /* Strengths Section */
+        .strengths {
+            padding: 5rem 0;
+            background: var(--card);
+        }
+
+        .strengths-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--foreground);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--muted-foreground);
+            max-width: 42rem;
+            margin: 0 auto;
+        }
+
+        .strengths-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .strength-card {
+            background: linear-gradient(145deg, hsl(35, 40%, 99%) 0%, hsl(35, 35%, 96%) 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-card);
+            border: 1px solid hsla(35, 20%, 88%, 0.5);
+            transition: all 0.5s;
+        }
+
+        .strength-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .strength-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 0.75rem;
+            background: hsla(322, 60%, 55%, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            transition: all 0.5s;
+        }
+
+        .strength-card:hover .strength-icon {
+            background: var(--accent);
+            color: var(--accent-foreground);
+        }
+
+        .strength-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--foreground);
+            margin-bottom: 1rem;
+        }
+
+        .strength-text {
+            color: var(--muted-foreground);
+            line-height: 1.7;
+        }
+
+        /* Projects Section */
+        .projects {
+            min-height: 100vh;
+            background: linear-gradient(135deg, hsl(35, 30%, 97%) 0%, hsl(35, 25%, 93%) 100%);
+            padding: 4rem 0;
+        }
+
+        .projects-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: linear-gradient(145deg, hsl(35, 40%, 99%) 0%, hsl(35, 35%, 96%) 100%);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+            border: 1px solid hsla(35, 20%, 88%, 0.5);
+            transition: all 0.5s;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .project-date {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--foreground);
+            margin-bottom: 0.75rem;
+            transition: color 0.3s;
+        }
+
+        .project-card:hover .project-title {
+            color: var(--accent);
+        }
+
+        .project-mission {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .project-tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-tag {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--muted);
+            border-radius: 9999px;
+            color: var(--muted-foreground);
+        }
+
+        .project-outcome {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--teal);
+        }
+
+        /* Experience Section */
+       .experience {
+            min-height: 100vh;
+            background: linear-gradient(135deg, hsl(35, 30%, 97%) 0%, hsl(35, 25%, 93%) 100%);
+            padding: 4rem 0;
+        }
+
+        .experience-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 3rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -2rem;
+            top: 0;
+            width: 1rem;
+            height: 1rem;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 4px solid var(--card);
+            box-shadow: var(--shadow-soft);
+            transform: translateX(-50%);
+        }
+
+        .timeline-card {
+            background: linear-gradient(145deg, hsl(35, 40%, 99%) 0%, hsl(35, 35%, 96%) 100%);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+            border: 1px solid hsla(35, 20%, 88%, 0.5);
+            margin-left: 1rem;
+        }
+
+        .timeline-role {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-org {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--foreground);
+            margin-bottom: 0.75rem;
+        }
+
+        .timeline-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            margin-bottom: 1rem;
+        }
+
+        .timeline-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .timeline-responsibilities {
+            list-style: none;
+        }
+
+        .timeline-responsibilities li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-responsibilities li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--teal);
+            border-radius: 50%;
+            margin-top: 0.5rem;
+            flex-shrink: 0;
+        }
+
+
+        /* Journey Section */
+        .journey {
+            min-height: 100vh;
+            background: linear-gradient(135deg, hsl(35, 30%, 97%) 0%, hsl(35, 25%, 93%) 100%);
+            padding: 4rem 0;
+        }
+
+        .journey-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .journey-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .journey-card {
+            background: linear-gradient(145deg, hsl(35, 40%, 99%) 0%, hsl(35, 35%, 96%) 100%);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+            border: 1px solid hsla(35, 20%, 88%, 0.5);
+            transition: all 0.5s;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .journey-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .journey-number {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: hsla(322, 60%, 55%, 0.1);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+            transition: all 0.5s;
+        }
+
+        .journey-card:hover .journey-number {
+            background: var(--accent);
+            color: var(--accent-foreground);
+        }
+
+        .journey-year {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            margin-bottom: 0.5rem;
+        }
+
+        .journey-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--foreground);
+            margin-bottom: 0.25rem;
+            transition: color 0.3s;
+        }
+
+        .journey-card:hover .journey-title {
+            color: var(--accent);
+        }
+
+        .journey-subtitle {
+            font-size: 0.875rem;
+            color: var(--teal);
+            font-weight: 500;
+        }
+
+        /* Recruiters Section */
+        .recruiters {
+            min-height: 100vh;
+            background: linear-gradient(135deg, hsl(35, 30%, 97%) 0%, hsl(35, 25%, 93%) 100%);
+            padding: 4rem 0;
+        }
+
+        .recruiters-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .highlight-card {
+            background: linear-gradient(145deg, hsl(35, 40%, 99%) 0%, hsl(35, 35%, 96%) 100%);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-card);
+            border: 1px solid hsla(35, 20%, 88%, 0.5);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .highlight-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0.75rem;
+            background: hsla(322, 60%, 55%, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .highlight-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--foreground);
+            margin-bottom: 0.25rem;
+        }
+
+        .highlight-text {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        .why-hire {
+            background: linear-gradient(145deg, hsl(35, 40%, 99%) 0%, hsl(35, 35%, 96%) 100%);
+            border-radius: 1.5rem;
+            padding: 3rem;
+            box-shadow: var(--shadow-elevated);
+            border: 1px solid hsla(35, 20%, 88%, 0.5);
+            margin-bottom: 3rem;
+        }
+
+        .why-hire-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--foreground);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .why-hire-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .why-hire-number {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background: hsla(174, 60%, 45%, 0.1);
+            color: var(--teal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .why-hire-item h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            color: var(--foreground);
+            margin-bottom: 0.25rem;
+        }
+
+        .why-hire-item p {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            line-height: 1.6;
+        }
+
+        /* Connect Section */
+        .connect {
+            min-height: 100vh;
+            background: linear-gradient(135deg, hsl(35, 30%, 97%) 0%, hsl(35, 25%, 93%) 100%);
+            padding: 4rem 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .connect-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            width: 100%;
+        }
+
+        .connect-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .connect-card {
+            background: linear-gradient(145deg, hsl(35, 40%, 99%) 0%, hsl(35, 35%, 96%) 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-card);
+            border: 1px solid hsla(35, 20%, 88%, 0.5);
+            text-align: center;
+            transition: all 0.5s;
+            display: block;
+        }
+
+        .connect-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .connect-icon {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 50%;
+            background: hsla(322, 60%, 55%, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            margin: 0 auto 1rem;
+            transition: all 0.5s;
+        }
+
+        .connect-card:hover .connect-icon {
+            background: var(--accent);
+            color: var(--accent-foreground);
+        }
+
+        .connect-card.teal .connect-icon {
+            background: hsla(174, 60%, 45%, 0.1);
+            color: var(--teal);
+        }
+
+        .connect-card.teal:hover .connect-icon {
+            background: var(--teal);
+            color: var(--secondary-foreground);
+        }
+
+        .connect-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--foreground);
+            margin-bottom: 0.5rem;
+        }
+
+        .connect-link {
+            color: var(--teal);
+            font-weight: 500;
+        }
+
+        .location-card {
+            background: linear-gradient(145deg, hsl(35, 40%, 99%) 0%, hsl(35, 35%, 96%) 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-card);
+            border: 1px solid hsla(35, 20%, 88%, 0.5);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .location-card p {
+            color: var(--muted-foreground);
+        }
+
+        .location-card p:first-child {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .location-card p:last-child {
+            font-size: 0.875rem;
+        }
+
+        .cta-center {
+            text-align: center;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: hsla(220, 25%, 15%, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--card);
+            border-radius: 1.5rem;
+            max-width: 48rem;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-elevated);
+        }
+
+        .modal-header {
+            position: sticky;
+            top: 0;
+            background: var(--card);
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-radius: 1.5rem 1.5rem 0 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+            color: var(--muted-foreground);
+            border-radius: var(--radius);
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: var(--muted);
+            color: var(--foreground);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-section-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--foreground);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-section p {
+            color: var(--muted-foreground);
+            line-height: 1.7;
+        }
+
+        .modal-section ul {
+            list-style: none;
+        }
+
+        .modal-section ul li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            color: var(--muted-foreground);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-section ul li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            margin-top: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .modal-tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .modal-tool {
+            font-size: 0.875rem;
+            padding: 0.5rem 1rem;
+            background: hsla(174, 60%, 45%, 0.1);
+            color: var(--teal);
+            border-radius: var(--radius);
+            font-weight: 500;
+        }
+
+        .modal-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .modal-skill {
+            font-size: 0.875rem;
+            padding: 0.5rem 1rem;
+            background: hsla(43, 70%, 55%, 0.1);
+            color: var(--gold-foreground);
+            border-radius: var(--radius);
+            font-weight: 500;
+            border: 1px solid hsla(43, 70%, 55%, 0.2);
+        }
+
+        .modal-highlight {
+            background: hsla(322, 60%, 55%, 0.05);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid hsla(322, 60%, 55%, 0.2);
+        }
+
+        .modal-highlight .modal-section-title {
+            color: var(--accent);
+        }
+
+        .modal-highlight p {
+            color: var(--foreground);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .journey-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .mobile-nav {
+                display: none;
+                padding: 1rem;
+                background: var(--card);
+            }
+
+            .mobile-nav.active {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-image-wrapper {
+                order: -1;
+            }
+
+            .hero-image {
+                width: 18rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .strengths-grid,
+            .projects-grid,
+            .highlights-grid,
+            .connect-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .journey-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .journey-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+        }
+
+        /* SVG Icons */
+        .icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .icon-sm {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .icon-lg {
+            width: 1.75rem;
+            height: 1.75rem;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display:block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="logo" onclick="showSection('home')">Keesha Ngombo</a>
+            <div class="nav-links">
+                <button class="nav-link active" onclick="showSection('home')">Home</button>
+                <button class="nav-link" onclick="showSection('projects')">Projects</button>
+                <button class="nav-link" onclick="showSection('experience')">Experience</button>
+                <button class="nav-link" onclick="showSection('journey')">Journey</button>
+                <button class="nav-link" onclick="showSection('recruiters')">Recruiters</button>
+                <button class="nav-link" onclick="showSection('connect')">Connect</button>
+            </div>
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-nav" id="mobileNav">
+            <button class="nav-link active" onclick="showSection('home'); toggleMobileMenu()">Home</button>
+            <button class="nav-link" onclick="showSection('projects'); toggleMobileMenu()">Projects</button>
+            <button class="nav-link" onclick="showSection('experience'); toggleMobileMenu()">Experience</button>
+            <button class="nav-link" onclick="showSection('journey'); toggleMobileMenu()">Journey</button>
+            <button class="nav-link" onclick="showSection('recruiters'); toggleMobileMenu()">Recruiters</button>
+            <button class="nav-link" onclick="showSection('connect'); toggleMobileMenu()">Connect</button>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="section active">
+        <div class="hero">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Welcome to my portfolio.</h1>
+                    <p class="hero-subtitle">A snapshot of how resilience, precision and collaboration shape the way I tackle complex, data-rich problems.</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="showSection('projects')">View Projects</button>
+                        <button class="btn btn-outline" onclick="showSection('connect')">Let's Connect</button>
+                    </div>
+                </div>
+                <div class="hero-image-wrapper">
+                    <div class="hero-image-container">
+                        <div class="hero-image-glow"></div>
+                        <img src="profile.jpeg" alt="Keesha Ngombo - Data Scientist and Statistician" class="hero-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="strengths">
+            <div class="strengths-container">
+                <div class="section-header">
+                    <h2 class="section-title">What I bring to your team</h2>
+                    <p class="section-subtitle">A foundation built on resilience, precision and collaboration.</p>
+                </div>
+                <div class="strengths-grid">
+                    <div class="strength-card">
+                        <div class="strength-icon">
+                            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                            </svg>
+                        </div>
+                        <h3 class="strength-title">Resilience</h3>
+                        <p class="strength-text">Grew through rejections, new countries and new systems with intention and consistency.</p>
+                    </div>
+                    <div class="strength-card">
+                        <div class="strength-icon">
+                            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                        </div>
+                        <h3 class="strength-title">Precision</h3>
+                        <p class="strength-text">Analytical depth and clear thinking rooted in mathematical and statistical training.</p>
+                    </div>
+                    <div class="strength-card">
+                        <div class="strength-icon">
+                            <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="strength-title">Collaboration</h3>
+                        <p class="strength-text">Experience teaching, mentoring and supporting diverse learners.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section projects">
+        <div class="projects-container">
+            <div class="section-header">
+                <h1 class="section-title">Projects</h1>
+                <p class="section-subtitle">A collection of selected data science and analytics projects that demonstrate my approach to solving complex problems.</p>
+            </div>
+            <div class="projects-grid" id="projectsGrid"></div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section experience">
+        <div class="experience-container">
+            <div class="section-header">
+                <h1 class="section-title">Experience</h1>
+                <p class="section-subtitle">A journey across continents, building expertise in data science, statistics, and education.</p>
+            </div>
+            <div class="timeline" id="experienceTimeline"></div>
+        </div>
+    </section>
+
+    <!-- Journey Section -->
+    <section id="journey" class="section journey">
+        <div class="journey-container">
+            <div class="section-header">
+                <h1 class="section-title">My Journey</h1>
+                <p class="section-subtitle">Every challenge, every struggle, every decision has shaped who I am today. Click on any chapter to explore my story.</p>
+            </div>
+            <div class="journey-grid" id="journeyGrid"></div>
+        </div>
+    </section>
+
+    <!-- Recruiters Section -->
+    <section id="recruiters" class="section recruiters">
+        <div class="recruiters-container">
+            <div class="section-header">
+                <h1 class="section-title">For Recruiters</h1>
+                <p class="section-subtitle">A quick overview of my qualifications, skills, and what I can bring to your organization.</p>
+            </div>
+
+            <div class="highlights-grid">
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="highlight-title">Master's in Applied Statistics</h3>
+                        <p class="highlight-text">Cleveland State University (GPA 3.8)</p>
+                    </div>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="highlight-title">BSc Mathematical Sciences</h3>
+                        <p class="highlight-text">Cape Town University of Technology (GPA 3.9)</p>
+                    </div>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="highlight-title">International Experience</h3>
+                        <p class="highlight-text">Gabon, South Africa, United States</p>
+                    </div>
+                </div>
+                <div class="highlight-card">
+                    <div class="highlight-icon">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="highlight-title">Technical Proficiency</h3>
+                        <p class="highlight-text">Python, R, SQL, Machine Learning, NLP</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="why-hire">
+                <h2 class="why-hire-title">Why Consider Me?</h2>
+                <div class="why-hire-item">
+                    <span class="why-hire-number">1</span>
+                    <div>
+                        <h4>Diverse Perspective</h4>
+                        <p>Having worked across three continents, I bring a unique lens to problem-solving that considers global contexts and diverse stakeholder needs.</p>
+                    </div>
+                </div>
+                <div class="why-hire-item">
+                    <span class="why-hire-number">2</span>
+                    <div>
+                        <h4>Strong Technical Foundation</h4>
+                        <p>My mathematical and statistical training enables me to approach data problems with rigor and precision, ensuring reliable and interpretable results.</p>
+                    </div>
+                </div>
+                <div class="why-hire-item">
+                    <span class="why-hire-number">3</span>
+                    <div>
+                        <h4>Communication & Teaching Skills</h4>
+                        <p>As an instructor, I've developed the ability to translate complex technical concepts into clear, actionable insights for diverse audiences.</p>
+                    </div>
+                </div>
+                <div class="why-hire-item">
+                    <span class="why-hire-number">4</span>
+                    <div>
+                        <h4>Resilience & Adaptability</h4>
+                        <p>My journey through different countries, cultures, and challenges has built a resilience that enables me to thrive in dynamic environments.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cta-center">
+                <a href="resume.pdf" download="Keesha_Ngombo_Resume.pdf" class="btn btn-accent" style="margin-right: 1rem;">
+                    <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                    </svg>
+                    Download Resume
+                </a>
+                <button class="btn btn-outline" onclick="showSection('connect')">Get in Touch</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Connect Section -->
+    <section id="connect" class="section connect">
+        <div class="connect-container">
+            <div class="section-header">
+                <h1 class="section-title">Let's Connect</h1>
+                <p class="section-subtitle">I'm always open to discussing data science opportunities, research collaborations, or just connecting with fellow professionals.</p>
+            </div>
+
+            <div class="connect-grid">
+                <a href="mailto:keeshao.ngombo@gmail.com" class="connect-card">
+                    <div class="connect-icon">
+                        <svg class="icon-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="connect-title">Email Me</h3>
+                    <p class="connect-link">keeshao.ngombo@gmail.com</p>
+                </a>
+                <a href="https://www.linkedin.com/in/keeshaorlene/" target="_blank" rel="noopener noreferrer" class="connect-card teal">
+                    <div class="connect-icon">
+                        <svg class="icon-lg" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </div>
+                    <h3 class="connect-title">LinkedIn</h3>
+                    <p class="connect-link">linkedin.com/in/keeshaorlene</p>
+                </a>
+            </div>
+
+            <div class="location-card">
+                <p>
+                    <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Based in Cleveland, Ohio, USA
+                </p>
+                <p>Open to remote opportunities and relocation</p>
+            </div>
+
+            <div class="cta-center">
+                <a href="resume.pdf" download="Keesha_Ngombo_Resume.pdf" class="btn btn-gold">
+                    <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                    </svg>
+                    Download My Resume
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div id="modalHeaderContent"></div>
+                <button class="modal-close" onclick="closeModal()">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBodyContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // Data
+        const projects = [
+                {
+    id: 1,
+    title: "Entrepreneurial Business Metrics",
+    date: "2025",
+    mission: "Use multivariate statistics to link founder behavior with startup outcomes.",
+    tools: ["R", "MANOVA", "Correspondence Analysis", "MDS"],
+    outcome: "Evidence that founder mindset shapes business performance beyond industry or market trend.",
+    details: {
+        problem: "Startup performance is usually explained by sector and market conditions, while founder behavior is rarely quantified.",
+        context: "Graduate multivariate analysis project using a Kaggle dataset of one thousand United States startups.",
+        approach: "Explored risk tolerance, innovation level and perceived market trend, then applied MANOVA, correspondence analysis, profile analysis and multidimensional scaling to study patterns in business metrics.",
+        tools: ["R", "MANOVA", "Correspondence Analysis", "Profile Analysis", "MDS"],
+        results: [
+            "Risk tolerance showed a strong and significant association with business performance patterns.",
+            "Innovation level had nuanced but meaningful effects on key metrics.",
+            "Industry and predicted trend alone could not fully explain differences between startups."
+        ],
+        impact: "Provided a statistical basis for segmenting entrepreneurs by behavior and helped show that mindset is a key driver of business differentiation."
+    }
+},
+
+{
+    id: 2,
+    title: "Experimental Analysis of Music Genre and Student Performance",
+    date: "2025",
+    mission: "Measure how music genre and timing influence exam scores and completion time.",
+    tools: ["R", "Minitab", "Experimental Design", "GLM"],
+    outcome: "Study showing that music affects task duration more than accuracy.",
+    details: {
+        problem: "Students frequently study with music, yet the impact of genre and timing on exam performance is not well quantified.",
+        context: "Graduate level experiment at Cleveland State University with eighteen students in a randomized complete block design.",
+        approach: "Assigned students to classical, metal and white noise conditions with music played either at the beginning or in the middle of an exam, then modeled scores and completion times using general linear models.",
+        tools: ["R", "Minitab", "Randomized Complete Block Design", "General Linear Model"],
+        results: [
+            "Music genre and timing did not significantly change exam scores.",
+            "Metal music was associated with slightly longer completion times.",
+            "Classical music and white noise were linked to faster task completion."
+        ],
+        impact: "Offered practical guidance for study and testing environments where completion time is important, even when score differences are small."
+    }
+},
+
+{
+    id: 3,
+    title: "Urban Transit Adoption Analysis",
+    date: "2024",
+    mission: "Identify which city level factors most strongly predict public transit use.",
+    tools: ["R", "Linear Regression", "Model Selection", "Public Policy"],
+    outcome: "Reduced regression model showing that per capita funding is a stronger predictor of transit use than density.",
+    details: {
+        problem: "Planners often assume that higher population density automatically leads to greater transit ridership, but this assumption is not always supported by data.",
+        context: "Group project using the 2019 National Transit Database for one hundred twenty metropolitan areas in the United States.",
+        approach: "Aggregated records to urbanized areas, engineered per capita variables, applied a Box Cox transformation and used linear regression with stepwise model selection and diagnostics to find an interpretable model.",
+        tools: ["R", "Linear Regression", "Box Cox Transformation", "stepAIC", "Diagnostic Plots"],
+        results: [
+            "The final model retained expenses per capita and percent public money as key predictors of transit miles per person.",
+            "Population density, rail availability and time zone were not significant once funding variables were included.",
+            "The model achieved a high adjusted R squared, explaining most of the variation in transit use."
+        ],
+        impact: "Suggested that funding structures and investment decisions are more critical than density for increasing transit ridership, giving planners clearer levers for policy."
+    }
+},
+
+{
+    id: 4,
+    title: "Bayesian Modeling of Amazon Review Importance",
+    date: "2024",
+    mission: "Model which shoppers rely most on online reviews when making purchase decisions.",
+    tools: ["R", "brms", "Bayesian Modeling", "Ordinal Regression"],
+    outcome: "Bayesian ordinal regression model that predicts how important reviews are for different shopper profiles.",
+    details: {
+        problem: "Ecommerce platforms need to understand which customers depend most on reviews in order to target communication and design better review systems.",
+        context: "Research project using a Kaggle survey of six hundred two Amazon shoppers with a five point rating of review importance.",
+        approach: "Cleaned and recoded demographic and behavioral variables, then fitted a Bayesian ordinal logistic regression model in R with brms, using weakly informative priors and thorough posterior checks.",
+        tools: ["R", "brms", "Stan", "Bayesian Ordinal Logistic Regression"],
+        results: [
+            "Younger shoppers and those who browse and purchase more frequently tended to rate reviews as more important.",
+            "Behavioral variables provided more predictive power than demographics alone.",
+            "Posterior predictive distributions allowed probability based predictions for review importance for new customer profiles."
+        ],
+        impact: "Equipped marketers with an interpretable Bayesian model to segment customers by reliance on reviews and design more targeted review strategies."
+    }
+},
+
+{
+    id: 5,
+    title: "Company Insights Assistant",
+    date: "2024",
+    mission: "Build a privacy aware RAG assistant to query internal company data safely.",
+    tools: ["Python", "Streamlit", "FAISS", "OpenAI"],
+    outcome: "Working prototype that answers questions about salaries and roles without exposing identities.",
+    details: {
+        problem: "Organizations want conversational access to internal data yet must protect sensitive information such as individual names and exact transactions.",
+        context: "Personal project that simulates an internal analytics assistant over a small structured dataset representing company records.",
+        approach: "Created a sample dataset with roles, salaries and transactions, indexed only non sensitive fields with FAISS and OpenAI embeddings, then built a Streamlit interface that applies privacy rules before returning any answer.",
+        tools: ["Python", "Streamlit", "Pandas", "FAISS", "OpenAI Embeddings", "Retrieval Augmented Generation"],
+        results: [
+            "The assistant answered questions about salary ranges, departments and transaction patterns without revealing who any record belonged to.",
+            "Queries that attempted to identify individuals were blocked or redirected to aggregate summaries.",
+            "The architecture can be extended to larger and more sensitive enterprise datasets."
+        ],
+        impact: "Demonstrated a practical pattern for using retrieval augmented generation to increase access to business insights while still respecting privacy and governance constraints."
+    }
+}
+
+        ];
+
+        const experiences = [
+            { id: 1, role: "Lecturer", organization: "Cleveland State University", location: "Cleveland, OH, USA", period: "August 2022 - Present", responsibilities: ["Teach undergraduate mathematics and statistics courses", "Design curriculum and assessments", "Mentor students in statistical methods and data analysis", "Hold office hours and provide academic support"] },
+            { id: 2, role: "Graduate Teaching Assistant", organization: "Cleveland State University", location: "Cleveland, OH, USA", period: "August 2020 - May 2022", responsibilities: ["Assisted professors in teaching statistics courses", "Graded assignments and exams", "Conducted tutoring sessions for students", "Supported course administration and logistics"] },
+            { id: 3, role: "Statistician Intern", organization: "General Directorate of Statistics", location: "Libreville, Gabon", period: "June 2019 - August 2019", responsibilities: ["Analyzed national survey data on healthcare and demographics", "Produced statistical reports for government stakeholders", "Collaborated with public health officials on data-driven policy recommendations", "Trained staff on data collection and analysis best practices"] },
+            { id: 4, role: "Digital Systems Intern", organization: "Statistics South Africa", location: "Cape Town, South Africa", period: "January 2018 - June 2018", responsibilities: ["Processed and validated national census survey data", "Performed data cleaning and quality assurance", "Generated summary statistics and visualizations", "Documented data workflows and methodologies"] },
+            { id: 5, role: "Freelance Graphic Designer", organization: "Self-Employed", location: "Cape Town, South Africa", period: "2016 - 2019", responsibilities: ["Designed logos, flyers, and marketing materials for small businesses", "Managed client relationships and project timelines", "Developed visual branding strategies"] }
+        ];
+
+        const journeyLevels = [
+  {
+    id: 1,
+    title: "Origins in Gabon",
+    subtitle: "The Spark",
+    year: "Early Years",
+    challenge: "I grew up seeing the real consequences of gaps in infrastructure and resources.",
+    struggle: "I initially believed engineering was the best way to contribute. When I was not accepted into that program, I felt uncertain about my future path.",
+    reflection: "That setback pushed me to explore fields focused on logic, systems, and structured problem solving.",
+    decision: "I chose Mathematical Sciences, which became the foundation for everything that followed.",
+    skillsGained: ["Problem framing", "Resilience", "Systems thinking"],
+    doorsOpened: ["University studies", "A new direction toward analytics"]
+  },
+  {
+    id: 2,
+    title: "Cape Town",
+    subtitle: "The Foundation",
+    year: "2015-2019",
+    challenge: "I studied Mathematical Sciences at Cape Peninsula University of Technology while adapting to a new environment academically and personally.",
+    struggle: "I faced imposter syndrome and academic challenges while working part-time to support myself.",
+    reflection: "Consistency and asking for help became powerful tools. Progress came from showing up even when confidence was low.",
+    decision: "I committed to growth through discipline, mentorship, and collaboration.",
+    skillsGained: ["Statistical modeling", "Data visualization", "Self-discipline", "Collaborative learning"],
+    doorsOpened: ["BSc with distinction", "First real-world analytics internship"]
+  },
+  {
+    id: 3,
+    title: "Statistics South Africa",
+    subtitle: "The Internship",
+    year: "2018",
+    challenge: "I worked with national survey systems and large datasets for the first time.",
+    struggle: "I received critical feedback and made mistakes that challenged my confidence.",
+    reflection: "Iteration builds expertise. Feedback improves performance. I learned to see corrections as a path to mastery.",
+    decision: "I communicated openly, asked questions early, and turned every task into a learning opportunity.",
+    skillsGained: ["Data cleaning", "Survey methodology", "Professional communication", "Accountability"],
+    doorsOpened: ["Applied experience", "Growing confidence in the field"]
+  },
+  {
+    id: 4,
+    title: "Return to Gabon",
+    subtitle: "The Homecoming",
+    year: "2019",
+    challenge: "I joined the General Directorate of Statistics to apply what I had learned.",
+    struggle: "The reality of limited tools and systems challenged my expectations.",
+    reflection: "Impact is built step by step. Small improvements matter.",
+    decision: "I focused on learning from colleagues, improving workflows, and being resourceful.",
+    skillsGained: ["Adaptability", "Training and mentorship", "Resourcefulness", "Problem solving"],
+    doorsOpened: ["Government project experience", "Practical understanding of constraints"]
+  },
+  {
+    id: 5,
+    title: "Cleveland State University",
+    subtitle: "The Leap",
+    year: "2020-2022",
+    challenge: "I moved to the United States for a Master’s in Statistics and Analytics, adapting to a new academic culture.",
+    struggle: "The pandemic brought emotional and financial challenges. I questioned whether I belonged.",
+    reflection: "Growth happens in discomfort. My background became a strength, not a limitation.",
+    decision: "I leaned into my skills, embraced responsibility, and built a strong academic track record.",
+    skillsGained: ["Advanced statistical methods", "R, Python, SAS", "Teaching communication", "Emotional resilience"],
+    doorsOpened: ["Master’s degree", "Instructor role at CSU"]
+  },
+  {
+    id: 6,
+    title: "Instructor & Researcher",
+    subtitle: "The Contribution",
+    year: "2022-Present",
+    challenge: "I began teaching university-level statistics and supporting students with a wide range of needs and learning styles.",
+    struggle: "Balancing teaching expectations and ongoing professional development required strong organization and time management.",
+    reflection: "My work reinforced that reliability, patience, and clarity are essential in any team environment.",
+    decision: "I committed to being someone others can count on — a teammate who strives for excellence and continuous learning.",
+    skillsGained: ["Curriculum design", "Research literacy", "Leadership", "Communication under pressure"],
+    doorsOpened: ["Stronger professional network", "Readiness for industry roles"]
+  },
+  {
+    id: 7,
+    title: "The Vision",
+    subtitle: "The Future",
+    year: "Next Chapter",
+    challenge: "Organizations increasingly rely on data but need people who can turn complexity into clarity.",
+    struggle: "Like any growth path, the next step will bring new challenges, new tools to master and new expectations to meet.",
+    reflection: "Every chapter has prepared me to learn quickly, take ownership of my work, and support others with high-quality insights.",
+    decision: "I am committed to a long-term career in data and analytics, contributing passion, curiosity, and dependable execution to the workplace.",
+    skillsGained: ["Strategic thinking", "Learning agility", "Problem solving"],
+    doorsOpened: ["Opportunities to grow within your team and make meaningful contributions"]
+  }
+];
+
+
+        // Render functions
+        function renderProjects() {
+            const grid = document.getElementById('projectsGrid');
+            grid.innerHTML = projects.map(p => `
+                <div class="project-card" onclick="openProjectModal(${p.id})">
+                    <div class="project-date">
+                        <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        ${p.date}
+                    </div>
+                    <h3 class="project-title">${p.title}</h3>
+                    <p class="project-mission">${p.mission}</p>
+                    <div class="project-tools">
+                        ${p.tools.slice(0, 3).map(t => `<span class="tool-tag">${t}</span>`).join('')}
+                        ${p.tools.length > 3 ? `<span class="tool-tag">+${p.tools.length - 3}</span>` : ''}
+                    </div>
+                    <p class="project-outcome">${p.outcome}</p>
+                    <button class="btn btn-ghost" style="margin-top: 1rem;">View Details</button>
+                </div>
+            `).join('');
+        }
+
+        function renderExperience() {
+            const timeline = document.getElementById('experienceTimeline');
+            timeline.innerHTML = experiences.map(e => `
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="timeline-role">
+                            <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            ${e.role}
+                        </div>
+                        <h3 class="timeline-org">${e.organization}</h3>
+                        <div class="timeline-meta">
+                            <span>
+                                <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                </svg>
+                                ${e.location}
+                            </span>
+                            <span>
+                                <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                ${e.period}
+                            </span>
+                        </div>
+                        <ul class="timeline-responsibilities">
+                            ${e.responsibilities.map(r => `<li>${r}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderJourney() {
+            const grid = document.getElementById('journeyGrid');
+            grid.innerHTML = journeyLevels.map((j, i) => `
+                <button class="journey-card" onclick="openJourneyModal(${j.id})">
+                    <div class="journey-number">${i + 1}</div>
+                    <p class="journey-year">${j.year}</p>
+                    <h3 class="journey-title">${j.title}</h3>
+                    <p class="journey-subtitle">${j.subtitle}</p>
+                </button>
+            `).join('');
+        }
+
+        // Navigation
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            document.querySelectorAll(`.nav-link`).forEach(l => {
+                if (l.textContent.toLowerCase() === sectionId || (sectionId === 'home' && l.textContent === 'Home')) {
+                    l.classList.add('active');
+                }
+            });
+            window.scrollTo(0, 0);
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileNav').classList.toggle('active');
+        }
+
+        // Modal functions
+        function openProjectModal(id) {
+            const project = projects.find(p => p.id === id);
+            document.getElementById('modalHeaderContent').innerHTML = `
+                <div>
+                    <span class="project-date" style="margin-bottom: 0.5rem; display: inline-flex;">
+                        <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right: 0.5rem;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        ${project.date}
+                    </span>
+                    <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 1.75rem; font-weight: 700; color: var(--foreground);">${project.title}</h2>
+                </div>
+            `;
+            document.getElementById('modalBodyContent').innerHTML = `
+                <div class="modal-section">
+                    <h3 class="modal-section-title">
+                        <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--accent);">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                        The Problem
+                    </h3>
+                    <p>${project.details.problem}</p>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Context</h3>
+                    <p>${project.details.context}</p>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Approach</h3>
+                    <p>${project.details.approach}</p>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title" style="color: var(--teal);">Tools & Technologies</h3>
+                    <div class="modal-tools">${project.details.tools.map(t => `<span class="modal-tool">${t}</span>`).join('')}</div>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title" style="color: var(--gold);">Key Results</h3>
+                    <ul>${project.details.results.map(r => `<li>${r}</li>`).join('')}</ul>
+                </div>
+                <div class="modal-highlight">
+                    <h3 class="modal-section-title">Impact</h3>
+                    <p>${project.details.impact}</p>
+                </div>
+            `;
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openJourneyModal(id) {
+            const journey = journeyLevels.find(j => j.id === id);
+            document.getElementById('modalHeaderContent').innerHTML = `
+                <div>
+                    <span style="font-size: 0.875rem; color: var(--muted-foreground); display: block; margin-bottom: 0.25rem;">${journey.year}</span>
+                    <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 1.75rem; font-weight: 700; color: var(--foreground);">${journey.title}</h2>
+                    <p style="color: var(--teal); font-weight: 500;">${journey.subtitle}</p>
+                </div>
+            `;
+            document.getElementById('modalBodyContent').innerHTML = `
+                <div class="modal-section">
+                    <h3 class="modal-section-title" style="color: var(--gold);">
+                        <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        The Challenge
+                    </h3>
+                    <p>${journey.challenge}</p>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title" style="color: var(--accent);">
+                        <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
+                        </svg>
+                        The Struggle
+                    </h3>
+                    <p>${journey.struggle}</p>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title" style="color: var(--teal);">
+                        <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                        The Reflection
+                    </h3>
+                    <p>${journey.reflection}</p>
+                </div>
+                <div class="modal-highlight">
+                    <h3 class="modal-section-title">
+                        <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                        </svg>
+                        The Decision
+                    </h3>
+                    <p>${journey.decision}</p>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title" style="color: var(--gold);">Skills Gained</h3>
+                    <div class="modal-skills">${journey.skillsGained.map(s => `<span class="modal-skill">${s}</span>`).join('')}</div>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title" style="color: var(--teal);">Doors Opened</h3>
+                    <ul>${journey.doorsOpened.map(d => `<li>${d}</li>`).join('')}</ul>
+                </div>
+            `;
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProjects();
+            renderExperience();
+            renderJourney();
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
