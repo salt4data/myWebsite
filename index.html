@@ -1111,6 +1111,384 @@
             display:block;
         }
     </style>
+    <style>
+        /* Journey story map */
+        .journey-ride {
+            --journey-avatar: 56px;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .journey-map {
+            padding-top: 28px;
+            margin-top: -1rem;
+        }
+
+        .journey-canvas {
+            position: relative;
+        }
+
+        .journey-svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            overflow: visible;
+        }
+
+        .journey-route,
+        .journey-route-fill,
+        .journey-branch {
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .journey-route {
+            stroke: var(--border);
+        }
+
+        .journey-route-fill {
+            stroke: var(--teal);
+        }
+
+        .journey-branch {
+            stroke: var(--border);
+        }
+
+        .journey-door-frame {
+            fill: var(--card);
+            stroke: var(--muted-foreground);
+        }
+
+        .journey-door-panel {
+            fill: none;
+            stroke: var(--border);
+        }
+
+        .journey-door-knob {
+            fill: var(--muted-foreground);
+        }
+
+        .journey-door-label {
+            position: absolute;
+            font-size: 0.75rem;
+            line-height: 1.3;
+            color: var(--muted-foreground);
+            white-space: nowrap;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .journey-door-label.is-below {
+            width: 6.5rem;
+            white-space: normal;
+            text-align: right;
+            transform: translateX(-100%);
+        }
+
+        .journey-stop {
+            position: absolute;
+            z-index: 1;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: none;
+            background: none;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: inherit;
+        }
+
+        .journey-stop-dot {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--muted);
+            box-shadow: inset 0 0 0 1px var(--border);
+            transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+        }
+
+        .journey-stop:hover .journey-stop-dot {
+            transform: scale(1.15);
+        }
+
+        .journey-stop.is-done .journey-stop-dot {
+            background: var(--teal);
+            box-shadow: none;
+        }
+
+        .journey-stop.is-current .journey-stop-dot {
+            background: var(--accent);
+            box-shadow: 0 0 0 5px hsla(322, 60%, 55%, 0.15);
+        }
+
+        .journey-stop.is-pulsing .journey-stop-dot {
+            animation: journey-pulse 2.2s ease-in-out infinite;
+        }
+
+        .journey-stop:focus {
+            outline: none;
+        }
+
+        .journey-stop:focus-visible .journey-stop-dot {
+            box-shadow: 0 0 0 3px var(--card), 0 0 0 5px var(--accent);
+        }
+
+        .journey-stop-tip {
+            position: absolute;
+            top: calc(100% - 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.2rem 0.6rem;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            color: var(--foreground);
+            background: var(--card);
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-soft);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .journey-stop:hover .journey-stop-tip,
+        .journey-stop:focus-visible .journey-stop-tip {
+            opacity: 1;
+        }
+
+        .journey-rider {
+            position: absolute;
+            z-index: 2;
+            left: 0;
+            top: 0;
+            width: var(--journey-avatar);
+            height: var(--journey-avatar);
+            transform: translate(-50%, calc(-100% - 14px));
+            pointer-events: none;
+        }
+
+        .journey-rider-img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--gold);
+            background: var(--card);
+            box-shadow: var(--shadow-card);
+            object-fit: cover;
+        }
+
+        .journey-talk {
+            position: absolute;
+            z-index: 3;
+            left: 0;
+            top: 0;
+            width: max-content;
+            max-width: min(280px, 100%);
+            padding: 0.6rem 0.9rem;
+            font-size: 0.8125rem;
+            line-height: 1.45;
+            color: var(--foreground);
+            background: var(--card);
+            border-radius: 0.9rem;
+            box-shadow: var(--shadow-card);
+            pointer-events: none;
+            transform: translateY(-100%);
+        }
+
+        .journey-talk::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: calc(var(--journey-tail, 50%) - 6px);
+            width: 12px;
+            height: 12px;
+            background: var(--card);
+            transform: rotate(45deg);
+        }
+
+        .journey-bubble {
+            animation: journey-talk-in 0.6s ease-out 0.2s backwards;
+            transition: opacity 0.3s;
+        }
+
+        .journey-bubble.is-hidden {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0s 0.3s;
+        }
+
+        .journey-say {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s, visibility 0s 0.35s;
+        }
+
+        .journey-say.is-shown {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.35s;
+        }
+
+        .journey-story {
+            margin-top: 2rem;
+            background: linear-gradient(145deg, hsl(35, 40%, 99%) 0%, hsl(35, 35%, 96%) 100%);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: var(--shadow-card);
+            border: 1px solid hsla(35, 20%, 88%, 0.5);
+        }
+
+        .journey-story-body.is-fading {
+            animation: journey-fade-in 0.45s ease-out backwards;
+        }
+
+        .journey-story-year {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            margin-bottom: 0.25rem;
+        }
+
+        .journey-story-heading {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--foreground);
+            margin-bottom: 1rem;
+        }
+
+        .journey-final-heading:focus {
+            outline: none;
+        }
+
+        .journey-story-text {
+            color: var(--muted-foreground);
+            line-height: 1.8;
+        }
+
+        .journey-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .journey-next {
+            margin-left: auto;
+        }
+
+        .journey-collected {
+            margin-top: 1.75rem;
+        }
+
+        .journey-collected-title {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            margin-bottom: 0.75rem;
+        }
+
+        .journey-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .journey-chip.is-new,
+        .journey-collected.is-new {
+            animation: journey-fade-in 0.4s ease-out backwards;
+        }
+
+        @keyframes journey-pulse {
+            0%, 100% {
+                box-shadow: 0 0 0 5px hsla(322, 60%, 55%, 0.15);
+            }
+            50% {
+                box-shadow: 0 0 0 11px hsla(322, 60%, 55%, 0.05);
+            }
+        }
+
+        @keyframes journey-fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes journey-talk-in {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .journey-ride {
+                --journey-avatar: 42px;
+            }
+
+            .journey-map {
+                padding-top: 96px;
+                margin-top: -2.5rem;
+            }
+
+            .journey-stop-dot {
+                width: 15px;
+                height: 15px;
+            }
+
+            .journey-rider {
+                transform: translate(-50%, calc(-100% - 12px));
+            }
+
+            .journey-talk {
+                max-width: min(240px, 100%);
+            }
+
+            .journey-story {
+                padding: 1.5rem;
+            }
+
+            .journey-story-heading {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .journey-actions .btn {
+                flex: 1 1 100%;
+            }
+
+            .journey-next {
+                margin-left: 0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .journey-stop-dot,
+            .journey-bubble,
+            .journey-bubble.is-hidden,
+            .journey-say,
+            .journey-say.is-shown {
+                transition: none;
+            }
+
+            .journey-bubble,
+            .journey-story-body.is-fading,
+            .journey-stop.is-pulsing .journey-stop-dot,
+            .journey-chip.is-new,
+            .journey-collected.is-new {
+                animation: none;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -1226,9 +1604,47 @@
         <div class="journey-container">
             <div class="section-header">
                 <h1 class="section-title">My Journey</h1>
-                <p class="section-subtitle">Every challenge, every struggle, every decision has shaped who I am today. Click on any chapter to explore my story.</p>
+                <p class="section-subtitle">A one minute ride through the stops that shaped me.</p>
             </div>
-            <div class="journey-grid" id="journeyGrid"></div>
+            <div class="journey-ride">
+                <div class="journey-map" id="journeyMap">
+                    <div class="journey-canvas" id="journeyPath" role="group" aria-label="Journey stops">
+                        <svg class="journey-svg" id="journeySvg" aria-hidden="true" focusable="false"></svg>
+                        <p class="journey-door-label" id="journeyDoorLabel">Mechanical engineering</p>
+                        <div class="journey-rider" id="journeyRider">
+                            <img src="avatar.png" alt="" class="journey-rider-img">
+                        </div>
+                        <p class="journey-bubble journey-talk" id="journeyBubble">Hi, I'm Keesha! Welcome to my story. Tap a stop to ride along.</p>
+                        <p class="journey-say journey-talk" id="journeySay" aria-hidden="true"></p>
+                    </div>
+                </div>
+                <article class="journey-story" id="journeyStory" aria-live="polite">
+                    <div class="journey-story-body" id="journeyStoryBody">
+                        <p class="journey-story-year" id="journeyStoryYear"></p>
+                        <h2 class="journey-story-heading" id="journeyStoryTitle"></h2>
+                        <p class="journey-story-text" id="journeyStoryText"></p>
+                    </div>
+                    <div class="journey-actions">
+                        <button class="btn btn-outline" id="journeyBack" onclick="journeyGo(journeyTarget - 1)">Back</button>
+                        <button class="btn btn-accent journey-next" id="journeyNext" onclick="journeyNextClick()">Next stop</button>
+                    </div>
+                </article>
+                <article class="journey-story" id="journeyFinal" hidden>
+                    <div class="journey-story-body" id="journeyFinalBody">
+                        <h2 class="journey-story-heading journey-final-heading" id="journeyFinalTitle" tabindex="-1">Ride complete.</h2>
+                        <p class="journey-story-text">Eight stops, three countries, one goal: make data useful. Thanks for riding along.</p>
+                    </div>
+                    <div class="journey-actions">
+                        <button class="btn btn-accent" onclick="showSection('connect')">Let's connect</button>
+                        <a href="Resume.pdf" download="Keesha_Ngombo_Resume.pdf" class="btn btn-gold">Download my resume</a>
+                        <button class="btn btn-outline" onclick="journeyRideAgain()">Ride again</button>
+                    </div>
+                </article>
+                <div class="journey-collected" id="journeyCollected" hidden>
+                    <p class="journey-collected-title">Collected along the way</p>
+                    <div class="journey-chips" id="journeyChips"></div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1479,105 +1895,64 @@
             { id: 5, role: "Digital Systems Development and Data Analysis Intern", organization: "Statistics South Africa", location: "South Africa", period: "June to September 2019", responsibilities: ["Helped move data collection from paper to electronic systems", "Built a prototype digital diary tool in Python and Kivy", "Evaluated adoption of the new system through survey analysis and user feedback"] }
         ];
 
-        const journeyLevels = [
-  {
-    id: 1,
-    title: "Origins in Gabon",
-    subtitle: "The Spark",
-    year: "Early Years",
-    challenge: "I grew up seeing the real consequences of gaps in infrastructure and resources.",
-    struggle: "I first believed engineering was the best way to contribute. When I was not accepted into that program, I felt unsure about my future.",
-    reflection: "That setback pushed me toward fields built on logic, systems, and structured problem solving.",
-    decision: "I chose Mathematical Sciences, which became the foundation for everything that followed.",
-    skillsGained: ["Problem framing", "Resilience", "Systems thinking"],
-    doorsOpened: ["University studies", "A new direction toward analytics"]
-  },
-  {
-    id: 2,
-    title: "Cape Town",
-    subtitle: "The Foundation",
-    year: "2015 to 2019",
-    challenge: "I studied Mathematical Sciences at Cape Peninsula University of Technology while adapting to a new country, academically and personally.",
-    struggle: "I dealt with imposter syndrome and hard coursework while working part time to support myself.",
-    reflection: "Consistency and asking for help made the difference. Progress came from showing up even when my confidence was low.",
-    decision: "I committed to growing through discipline, mentorship, and working with others.",
-    skillsGained: ["Statistics and probability", "Numerical methods", "Programming", "Self discipline"],
-    doorsOpened: ["BSc in Mathematical Sciences, December 2019", "My first analytics internship"]
-  },
-  {
-    id: 3,
-    title: "Statistics South Africa",
-    subtitle: "The Internship",
-    year: "2019",
-    challenge: "I helped Statistics South Africa move data collection from paper to electronic systems, and built a prototype digital diary tool in Python and Kivy.",
-    struggle: "I received critical feedback and made mistakes that shook my confidence.",
-    reflection: "Expertise comes from iteration, and feedback makes the work better. I learned to treat corrections as part of getting good at something.",
-    decision: "I communicated openly, asked questions early, and treated every task as a chance to learn.",
-    skillsGained: ["Python", "Survey analysis", "Professional communication", "Accountability"],
-    doorsOpened: ["Applied experience in official statistics", "Growing confidence in the field"]
-  },
-  {
-    id: 4,
-    title: "Return to Gabon",
-    subtitle: "The Homecoming",
-    year: "2022",
-    challenge: "I joined the General Directorate of Statistics, cleaning and validating national business registry data and supporting economic and labor market analysis.",
-    struggle: "Limited tools and systems challenged my expectations of what the work would look like.",
-    reflection: "Impact is built step by step, and small improvements matter.",
-    decision: "I focused on learning from colleagues, improving how the work got done, and being resourceful.",
-    skillsGained: ["Data validation", "Quality assurance", "Adaptability", "Resourcefulness"],
-    doorsOpened: ["Experience supporting official statistical publications", "A practical understanding of constraints"]
-  },
-  {
-    id: 5,
-    title: "Cleveland State University",
-    subtitle: "The Leap",
-    year: "2023 to 2025",
-    challenge: "I came to Cleveland State University for a Master of Science in Statistics and Analytics and had to adapt to a new academic culture.",
-    struggle: "Starting over in a new place brought emotional and financial challenges, and I questioned whether I belonged.",
-    reflection: "Growth happens in discomfort. My background turned out to be a strength, not a limitation.",
-    decision: "I leaned into my skills, took on teaching, and finished the degree with a 3.8 GPA.",
-    skillsGained: ["Bayesian and multivariate analysis", "Experimental design", "R, Python, SAS", "Teaching communication"],
-    doorsOpened: ["MS in Statistics and Analytics, May 2025", "Teaching roles at Cleveland State"]
-  },
-  {
-    id: 6,
-    title: "Instructor & Analyst",
-    subtitle: "The Contribution",
-    year: "2023 to 2026",
-    challenge: "I taught mathematics and statistics to more than 200 undergraduates at Cleveland State and worked as a project analyst for BDPA Cleveland, analyzing outcome data for AI education programs.",
-    struggle: "Balancing teaching, analysis work, and my own development took real organization and time management.",
-    reflection: "The work reinforced that reliability, patience, and clarity matter in any team.",
-    decision: "I committed to being someone others can count on, a teammate who does careful work and keeps learning.",
-    skillsGained: ["Course and assessment design", "Survey design", "Power BI reporting", "Communication under pressure"],
-    doorsOpened: ["A stronger professional network", "Readiness for doctoral research"]
-  },
-  {
-    id: 7,
-    title: "PhD at Cleveland State",
-    subtitle: "The Next Step",
-    year: "2026",
-    challenge: "In August 2026 I started a PhD in Engineering in Data Science at Cleveland State University.",
-    struggle: "Being a first year student again means building new foundations, like data structures and algorithms, after years of working in the field.",
-    reflection: "My statistics training gives me a solid base. The PhD is where I add engineering depth and research experience.",
-    decision: "I'm completing my required coursework, including Data Structures & Algorithms and a Biomedical Seminar, and I'm available for research assistantship work alongside it.",
-    skillsGained: ["Data structures and algorithms", "Engineering foundations"],
-    doorsOpened: ["Research assistantship opportunities", "Full time research after coursework"]
-  },
-  {
-    id: 8,
-    title: "The Vision",
-    subtitle: "The Future",
-    year: "Next Chapter",
-    challenge: "Research and organizations both rely on data, and they need people who can turn complexity into clear, trustworthy answers.",
-    struggle: "Like any path worth taking, the next step will bring new challenges, new tools to learn, and new expectations to meet.",
-    reflection: "Every chapter so far has taught me to learn quickly, own my work, and support others with careful analysis.",
-    decision: "I'm committed to a long term career in data science and research, bringing curiosity and dependable execution to the work.",
-    skillsGained: ["Strategic thinking", "Learning agility", "Problem solving"],
-    doorsOpened: ["Research collaborations where I can make meaningful contributions"]
-  }
-];
-
+        const journeyStops = [
+            {
+                year: "Childhood",
+                title: "Where It Started",
+                story: "I grew up in Gabon in a big, loving family, spending my days on our farm and learning the stories of my community with my brothers. I also noticed what was missing: unpaved roads, too few hospitals, schools without enough support. Every problem gave me a new dream job. I did not know how yet, but I knew I wanted to help fix things.",
+                say: "This is where it all started.",
+                skill: "Curiosity"
+            },
+            {
+                year: "Age 18",
+                title: "Plan B",
+                story: "At eighteen I applied for mechanical engineering because it looked like the safe path. I was not accepted. My second choice was Mathematical Sciences, a program I had picked quickly just to finish the form. I panicked at first, then decided to give it everything.",
+                say: "Plot twist incoming.",
+                skill: "Resilience"
+            },
+            {
+                year: "2015 to 2019",
+                title: "A New Country",
+                story: "That choice took me to Cape Peninsula University of Technology in South Africa. New country, new system, and as a first generation student, not always the guidance I needed. Some days I doubted I belonged. I kept showing up, asked for help, and somewhere along the way, math turned into a love for statistics and data.",
+                say: "Spoiler: I stayed.",
+                skill: "Perseverance"
+            },
+            {
+                year: "2019",
+                title: "First Real Data",
+                story: "Before graduating, I interned at Statistics South Africa while the team moved from paper surveys to electronic data collection. I built a prototype digital diary tool in Python and Kivy, made mistakes, and got honest feedback. I learned that corrections are part of getting good.",
+                say: "First real data. First real feedback.",
+                skill: "Openness to feedback"
+            },
+            {
+                year: "2022",
+                title: "Back Home",
+                story: "I went back to Gabon to intern at the General Directorate of Statistics, working on national business registry data. The tools were more limited than I expected, so careful work mattered even more. Cleaning, validating, checking. It showed me how much good decisions depend on good data.",
+                say: "Home, with a new toolkit.",
+                skill: "Resourcefulness"
+            },
+            {
+                year: "Master's, 2025",
+                title: "Crossing the Ocean",
+                story: "Next stop was Cleveland State University for a Master's in Statistics and Analytics. Another new country, another new culture. I studied Bayesian analysis and experimental design while working as a graduate teaching assistant, and graduated with a 3.8 GPA.",
+                say: "Yes, another new country.",
+                skill: "Adaptability"
+            },
+            {
+                year: "2023 to now",
+                title: "My Own Classroom",
+                story: "I now teach mathematics and statistics to undergraduates at CSU, over 200 students so far. Knowing statistics and teaching it are different skills. I had to learn to explain the same idea five different ways until it clicked. Outside class, I support AI education programs with BDPA Cleveland.",
+                say: "Office hours, anyone?",
+                skill: "Communication"
+            },
+            {
+                year: "2026",
+                title: "The Road Ahead",
+                story: "In August 2026 I started a PhD in Engineering in Data Science at Cleveland State, building on my statistics foundation with the engineering side of data. I love data, I want to be genuinely good at this work, and I can't stop learning. Along the way, I want to share what I learn and use it to help businesses and communities make better decisions, including back home in Africa.",
+                say: "Still learning. Always.",
+                skill: "Love of learning"
+            }
+        ];
 
         // Render functions
         function renderProjects() {
@@ -1638,15 +2013,24 @@
         }
 
         function renderJourney() {
-            const grid = document.getElementById('journeyGrid');
-            grid.innerHTML = journeyLevels.map((j, i) => `
-                <button class="journey-card" onclick="openJourneyModal(${j.id})">
-                    <div class="journey-number">${i + 1}</div>
-                    <p class="journey-year">${j.year}</p>
-                    <h3 class="journey-title">${j.title}</h3>
-                    <p class="journey-subtitle">${j.subtitle}</p>
-                </button>
-            `).join('');
+            const canvas = document.getElementById('journeyPath');
+            journeyStops.forEach((s, i) => {
+                const stop = document.createElement('button');
+                stop.className = 'journey-stop';
+                stop.setAttribute('aria-label', `Stop ${i + 1} of ${journeyStops.length}: ${s.year}, ${s.title}`);
+                stop.innerHTML = `<span class="journey-stop-dot"></span><span class="journey-stop-tip" aria-hidden="true">${s.year}</span>`;
+                stop.addEventListener('click', () => journeyGo(i));
+                canvas.insertBefore(stop, document.getElementById('journeyRider'));
+            });
+            journeyBuildMap();
+            journeyArrive(0, false, false);
+            canvas.querySelector('.journey-stop').classList.add('is-pulsing');
+            journeyEl('journeyBubble').dataset.stop = 0;
+
+            // Rebuild the map when switching between phone and wide layouts,
+            // and keep bubbles placed once the section becomes visible or resizes
+            window.matchMedia('(max-width: 600px)').addEventListener('change', journeyBuildMap);
+            new ResizeObserver(journeyPlaceTalk).observe(canvas);
         }
 
         // Navigation
@@ -1715,63 +2099,417 @@
             document.body.style.overflow = 'hidden';
         }
 
-        function openJourneyModal(id) {
-            const journey = journeyLevels.find(j => j.id === id);
-            document.getElementById('modalHeaderContent').innerHTML = `
-                <div>
-                    <span style="font-size: 0.875rem; color: var(--muted-foreground); display: block; margin-bottom: 0.25rem;">${journey.year}</span>
-                    <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 1.75rem; font-weight: 700; color: var(--foreground);">${journey.title}</h2>
-                    <p style="color: var(--teal); font-weight: 500;">${journey.subtitle}</p>
-                </div>
-            `;
-            document.getElementById('modalBodyContent').innerHTML = `
-                <div class="modal-section">
-                    <h3 class="modal-section-title" style="color: var(--gold);">
-                        <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                        </svg>
-                        The Challenge
-                    </h3>
-                    <p>${journey.challenge}</p>
-                </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title" style="color: var(--accent);">
-                        <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/>
-                        </svg>
-                        The Struggle
-                    </h3>
-                    <p>${journey.struggle}</p>
-                </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title" style="color: var(--teal);">
-                        <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
-                        </svg>
-                        The Reflection
-                    </h3>
-                    <p>${journey.reflection}</p>
-                </div>
-                <div class="modal-highlight">
-                    <h3 class="modal-section-title">
-                        <svg class="icon-sm" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                        </svg>
-                        The Decision
-                    </h3>
-                    <p>${journey.decision}</p>
-                </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title" style="color: var(--gold);">Skills Gained</h3>
-                    <div class="modal-skills">${journey.skillsGained.map(s => `<span class="modal-skill">${s}</span>`).join('')}</div>
-                </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title" style="color: var(--teal);">Doors Opened</h3>
-                    <ul>${journey.doorsOpened.map(d => `<li>${d}</li>`).join('')}</ul>
-                </div>
-            `;
-            document.getElementById('modalOverlay').classList.add('active');
-            document.body.style.overflow = 'hidden';
+        // Journey story map
+        const JOURNEY_SVG = 'http://www.w3.org/2000/svg';
+        const JOURNEY_WELCOME = "Hi, I'm Keesha! Welcome to my story. Tap a stop to ride along.";
+        const JOURNEY_LAYOUTS = {
+            // Wide screens: the road winds left to right; stop 5 swings back toward the start
+            wide: {
+                w: 1000, h: 300, stroke: 4, gap: 14,
+                points: [[60, 120], [190, 200], [330, 105], [500, 180], [400, 250], [620, 240], [780, 110], [940, 190]],
+                branchControl: [170, 262], door: [110, 268], label: 'right'
+            },
+            // Phones: the road winds top to bottom; stop 5 swings back up toward the start
+            tall: {
+                w: 300, h: 600, stroke: 4, gap: 12,
+                points: [[60, 40], [170, 118], [45, 200], [145, 305], [240, 240], [225, 375], [50, 470], [160, 560]],
+                branchControl: [200, 68], door: [265, 68], label: 'below'
+            }
+        };
+
+        let journeyLayout = null;
+        let journeyRoute = null;
+        let journeyRouteFill = null;
+        let journeyBranch = null;
+        let journeyRouteLength = 0;
+        let journeyBranchLength = 0;
+        let journeyStopLengths = [];
+        let journeyLength = 0;
+        let journeyBranchPos = 0;
+        let journeyToken = 0;
+        let journeyRiding = false;
+        let journeyCurrent = 0;
+        let journeyTarget = 0;
+        let journeyStarted = false;
+        let journeyFinished = false;
+        let journeySayTimer = null;
+        const journeyCollectedStops = new Set();
+
+        function journeyEl(id) {
+            return document.getElementById(id);
+        }
+
+        function journeyReducedMotion() {
+            return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        }
+
+        function journeySvgEl(tag, attrs) {
+            const el = document.createElementNS(JOURNEY_SVG, tag);
+            Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+            return el;
+        }
+
+        // Smooth curve through every stop (Catmull Rom converted to cubic Bezier segments)
+        function journeySegments(points) {
+            return points.slice(0, -1).map((p1, i) => {
+                const p0 = points[i - 1] || p1;
+                const p2 = points[i + 1];
+                const p3 = points[i + 2] || p2;
+                const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+                const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+                return ` C ${c1[0]} ${c1[1]} ${c2[0]} ${c2[1]} ${p2[0]} ${p2[1]}`;
+            });
+        }
+
+        function journeyBuildMap() {
+            const layout = window.matchMedia('(max-width: 600px)').matches ? JOURNEY_LAYOUTS.tall : JOURNEY_LAYOUTS.wide;
+            if (layout === journeyLayout) return;
+            journeyLayout = layout;
+            const svg = journeyEl('journeySvg');
+            const pts = layout.points;
+            const start = `M ${pts[0][0]} ${pts[0][1]}`;
+            const segments = journeySegments(pts);
+            const d = start + segments.join('');
+            const s2 = pts[1];
+
+            svg.setAttribute('viewBox', `0 0 ${layout.w} ${layout.h}`);
+            svg.innerHTML = '';
+            journeyBranch = journeySvgEl('path', {
+                class: 'journey-branch', 'stroke-width': layout.stroke, 'stroke-dasharray': '2 9',
+                d: `M ${s2[0]} ${s2[1]} Q ${layout.branchControl[0]} ${layout.branchControl[1]} ${layout.door[0]} ${layout.door[1]}`
+            });
+            journeyRoute = journeySvgEl('path', { class: 'journey-route', 'stroke-width': layout.stroke, d });
+            journeyRouteFill = journeySvgEl('path', { class: 'journey-route-fill', 'stroke-width': layout.stroke, d });
+            const door = journeySvgEl('g', { transform: `translate(${layout.door[0]} ${layout.door[1]})` });
+            door.appendChild(journeySvgEl('rect', { class: 'journey-door-frame', x: -11, y: -15, width: 22, height: 30, rx: 3, 'stroke-width': 2 }));
+            door.appendChild(journeySvgEl('rect', { class: 'journey-door-panel', x: -6, y: -10, width: 12, height: 8, rx: 1.5, 'stroke-width': 1.5 }));
+            door.appendChild(journeySvgEl('rect', { class: 'journey-door-panel', x: -6, y: 2, width: 12, height: 8, rx: 1.5, 'stroke-width': 1.5 }));
+            door.appendChild(journeySvgEl('circle', { class: 'journey-door-knob', cx: 6.5, cy: 0, r: 1.6 }));
+            [journeyBranch, journeyRoute, journeyRouteFill, door].forEach(el => svg.appendChild(el));
+
+            journeyRouteLength = journeyRoute.getTotalLength();
+            journeyBranchLength = journeyBranch.getTotalLength();
+            const probe = journeySvgEl('path', { d: start });
+            svg.appendChild(probe);
+            journeyStopLengths = pts.map((p, i) => {
+                if (i === 0) return 0;
+                probe.setAttribute('d', start + segments.slice(0, i).join(''));
+                return probe.getTotalLength();
+            });
+            probe.remove();
+            journeyRouteFill.style.strokeDasharray = `${journeyRouteLength} ${journeyRouteLength}`;
+
+            const label = journeyEl('journeyDoorLabel');
+            label.classList.toggle('is-below', layout.label === 'below');
+            if (layout.label === 'below') {
+                label.style.left = `${(layout.door[0] + 22) / layout.w * 100}%`;
+                label.style.top = `${(layout.door[1] + 24) / layout.h * 100}%`;
+            } else {
+                label.style.left = `${(layout.door[0] + 20) / layout.w * 100}%`;
+                label.style.top = `${layout.door[1] / layout.h * 100}%`;
+            }
+
+            document.querySelectorAll('.journey-stop').forEach((stop, i) => {
+                stop.style.left = `${pts[i][0] / layout.w * 100}%`;
+                stop.style.top = `${pts[i][1] / layout.h * 100}%`;
+            });
+
+            // A layout change mid ride simply lands at the destination
+            if (journeyRiding) {
+                journeyToken++;
+                journeyRiding = false;
+                journeyCurrent = journeyTarget;
+            }
+            journeyBranchPos = 0;
+            journeyPlace(journeyFinished ? journeyRouteLength : journeyStopLengths[journeyCurrent]);
+            journeyPlaceTalk();
+        }
+
+        function journeyPlaceAt(point) {
+            const rider = journeyEl('journeyRider');
+            rider.style.left = `${point.x / journeyLayout.w * 100}%`;
+            rider.style.top = `${point.y / journeyLayout.h * 100}%`;
+        }
+
+        function journeyPlace(length) {
+            journeyLength = length;
+            journeyPlaceAt(journeyRoute.getPointAtLength(length));
+            journeyRouteFill.style.strokeDashoffset = journeyRouteLength - length;
+        }
+
+        function journeyPlaceOnBranch(length) {
+            journeyBranchPos = length;
+            journeyPlaceAt(journeyBranch.getPointAtLength(length));
+        }
+
+        function journeyEase(t) {
+            return 0.5 - Math.cos(Math.PI * t) / 2;
+        }
+
+        function journeyTween(duration, step, token) {
+            return new Promise(resolve => {
+                const start = performance.now();
+                const frame = now => {
+                    if (token !== journeyToken) return resolve(false);
+                    const t = Math.min((now - start) / duration, 1);
+                    step(journeyEase(t));
+                    if (t < 1) {
+                        requestAnimationFrame(frame);
+                    } else {
+                        resolve(true);
+                    }
+                };
+                requestAnimationFrame(frame);
+            });
+        }
+
+        function journeyWait(ms, token) {
+            return new Promise(resolve => setTimeout(() => resolve(token === journeyToken), ms));
+        }
+
+        // Speech bubbles sit above the avatar at a stop and stay inside the map
+        function journeyTalkAt(el, index) {
+            const canvas = journeyEl('journeyPath');
+            const W = canvas.offsetWidth;
+            const H = canvas.offsetHeight;
+            if (!W) return;
+            const p = journeyLayout.points[index];
+            const x = p[0] / journeyLayout.w * W;
+            const y = p[1] / journeyLayout.h * H;
+            const avatar = journeyEl('journeyRider').offsetWidth;
+            const w = el.offsetWidth;
+            const left = Math.min(Math.max(x - w / 2, 0), W - w);
+            el.style.left = `${left}px`;
+            el.style.top = `${y - journeyLayout.gap - avatar - 10}px`;
+            el.style.setProperty('--journey-tail', `${Math.min(Math.max(x - left, 16), w - 16)}px`);
+            el.dataset.stop = index;
+        }
+
+        function journeyPlaceTalk() {
+            ['journeyBubble', 'journeySay'].forEach(id => {
+                const el = journeyEl(id);
+                if (el.dataset.stop !== undefined) journeyTalkAt(el, Number(el.dataset.stop));
+            });
+        }
+
+        function journeyShowWelcome(text, index) {
+            const bubble = journeyEl('journeyBubble');
+            bubble.textContent = text;
+            bubble.classList.remove('is-hidden');
+            journeyTalkAt(bubble, index);
+            bubble.style.animation = 'none';
+            void bubble.offsetWidth;
+            bubble.style.animation = '';
+        }
+
+        function journeyHideBubbles() {
+            journeyEl('journeyBubble').classList.add('is-hidden');
+            journeyEl('journeySay').classList.remove('is-shown');
+            clearTimeout(journeySayTimer);
+        }
+
+        function journeySay(index) {
+            const say = journeyEl('journeySay');
+            say.textContent = journeyStops[index].say;
+            journeyTalkAt(say, index);
+            say.classList.add('is-shown');
+            clearTimeout(journeySayTimer);
+            journeySayTimer = setTimeout(() => say.classList.remove('is-shown'), 3000);
+        }
+
+        function journeyFade(el) {
+            el.classList.remove('is-fading');
+            void el.offsetWidth;
+            el.classList.add('is-fading');
+        }
+
+        function journeyCollect(index) {
+            const isNew = !journeyCollectedStops.has(index);
+            journeyCollectedStops.add(index);
+            const row = journeyEl('journeyCollected');
+            if (row.hidden) {
+                row.hidden = false;
+                row.classList.add('is-new');
+            }
+            journeyEl('journeyChips').innerHTML = [...journeyCollectedStops].sort((a, b) => a - b)
+                .map(i => `<span class="modal-skill journey-chip${isNew && i === index ? ' is-new' : ''}">${journeyStops[i].skill}</span>`)
+                .join('');
+        }
+
+        function journeyStart() {
+            journeyStarted = true;
+            document.querySelectorAll('.journey-stop')[0].classList.remove('is-pulsing');
+            journeyCollect(journeyCurrent);
+        }
+
+        function journeyShowStory() {
+            journeyFinished = false;
+            journeyEl('journeyFinal').hidden = true;
+            journeyEl('journeyStory').hidden = false;
+        }
+
+        function journeyScrollTo(index) {
+            const canvas = journeyEl('journeyPath').getBoundingClientRect();
+            const p = journeyLayout.points[index];
+            const y = canvas.top + p[1] / journeyLayout.h * canvas.height;
+            if (y < 200 || y > window.innerHeight - 40) {
+                window.scrollBy({ top: y - window.innerHeight * 0.45, behavior: journeyReducedMotion() ? 'auto' : 'smooth' });
+            }
+        }
+
+        async function journeyGo(index) {
+            if (index < 0 || index >= journeyStops.length) return;
+            if (!journeyStarted) journeyStart();
+            if (journeyFinished) {
+                journeyShowStory();
+                journeyHideBubbles();
+                if (index === journeyCurrent) {
+                    journeyArrive(index, true, true);
+                    return;
+                }
+            }
+
+            // Clicking the stop you are already on replays its line
+            if (index === journeyTarget) {
+                if (!journeyRiding) {
+                    journeyHideBubbles();
+                    journeyArrive(index, false, true);
+                }
+                return;
+            }
+
+            journeyHideBubbles();
+            const token = ++journeyToken;
+            journeyTarget = index;
+            journeyScrollTo(index);
+
+            if (journeyReducedMotion()) {
+                journeyBranchPos = 0;
+                journeyPlace(journeyStopLengths[index]);
+                journeyArrive(index, false, true);
+                return;
+            }
+
+            journeyRiding = true;
+            if (journeyBranchPos > 0) {
+                const from = journeyBranchPos;
+                if (!await journeyTween(200, t => journeyPlaceOnBranch(from * (1 - t)), token)) return;
+                journeyBranchPos = 0;
+            }
+
+            const from = journeyLength;
+            const to = journeyStopLengths[index];
+            const average = journeyRouteLength / (journeyStops.length - 1);
+            const duration = Math.min(Math.max(600 * Math.sqrt(Math.abs(to - from) / average), 450), 1100);
+            if (!await journeyTween(duration, t => journeyPlace(from + (to - from) * t), token)) return;
+
+            const detour = index === 1;
+            journeyArrive(index, true, !detour);
+            if (detour) {
+                // Dead end: head toward the engineering door, pause, then settle at stop 2
+                const reach = journeyBranchLength * 0.55;
+                if (!await journeyTween(380, t => journeyPlaceOnBranch(reach * t), token)) return;
+                if (!await journeyWait(200, token)) return;
+                if (!await journeyTween(380, t => journeyPlaceOnBranch(reach * (1 - t)), token)) return;
+                journeyPlace(journeyStopLengths[1]);
+                journeyBranchPos = 0;
+                journeySay(1);
+            }
+            journeyRiding = false;
+        }
+
+        function journeyArrive(index, fade, say) {
+            const last = journeyStops.length - 1;
+            const stop = journeyStops[index];
+            journeyCurrent = index;
+            journeyTarget = index;
+
+            document.querySelectorAll('.journey-stop').forEach((el, i) => {
+                el.classList.toggle('is-done', i < index);
+                el.classList.toggle('is-current', i === index);
+                if (i === index) {
+                    el.setAttribute('aria-current', 'step');
+                } else {
+                    el.removeAttribute('aria-current');
+                }
+            });
+
+            journeyEl('journeyStoryYear').textContent = stop.year;
+            journeyEl('journeyStoryTitle').textContent = stop.title;
+            journeyEl('journeyStoryText').textContent = stop.story;
+            const body = journeyEl('journeyStoryBody');
+            body.classList.remove('is-fading');
+            if (fade && !journeyReducedMotion()) journeyFade(body);
+
+            const back = journeyEl('journeyBack');
+            const next = journeyEl('journeyNext');
+            if (index === 0 && document.activeElement === back) next.focus();
+            back.style.display = index === 0 ? 'none' : '';
+            next.textContent = index === last ? 'Finish the ride' : 'Next stop';
+
+            if (journeyStarted) {
+                journeyCollect(index);
+                if (say) journeySay(index);
+            }
+        }
+
+        function journeyNextClick() {
+            const last = journeyStops.length - 1;
+            if (journeyTarget < last) {
+                journeyGo(journeyTarget + 1);
+                return;
+            }
+            if (journeyRiding || journeyCurrent !== last) {
+                journeyToken++;
+                journeyRiding = false;
+                journeyBranchPos = 0;
+                journeyPlace(journeyStopLengths[last]);
+                journeyArrive(last, false, false);
+            }
+            journeyFinish();
+        }
+
+        function journeyFinish() {
+            journeyFinished = true;
+            journeyHideBubbles();
+            journeyPlace(journeyRouteLength);
+            document.querySelectorAll('.journey-stop').forEach(el => {
+                el.classList.add('is-done');
+                el.classList.remove('is-current');
+            });
+            journeyEl('journeyStory').hidden = true;
+            journeyEl('journeyFinal').hidden = false;
+            if (!journeyReducedMotion()) journeyFade(journeyEl('journeyFinalBody'));
+            journeyShowWelcome('Thanks for riding along!', journeyStops.length - 1);
+            journeyEl('journeyFinalTitle').focus({ preventScroll: true });
+        }
+
+        async function journeyRideAgain() {
+            const token = ++journeyToken;
+            journeyHideBubbles();
+            journeyShowStory();
+            journeyStarted = false;
+            journeyCollectedStops.clear();
+            journeyEl('journeyChips').innerHTML = '';
+            const row = journeyEl('journeyCollected');
+            row.hidden = true;
+            row.classList.remove('is-new');
+            document.querySelectorAll('.journey-stop')[0].classList.add('is-pulsing');
+            journeyCurrent = 0;
+            journeyTarget = 0;
+            journeyEl('journeyNext').focus({ preventScroll: true });
+            journeyScrollTo(0);
+
+            if (!journeyReducedMotion()) {
+                journeyRiding = true;
+                const from = journeyLength;
+                if (!await journeyTween(1100, t => journeyPlace(from * (1 - t)), token)) return;
+                journeyRiding = false;
+            }
+            journeyBranchPos = 0;
+            journeyPlace(0);
+            journeyArrive(0, !journeyReducedMotion(), false);
+            journeyShowWelcome(JOURNEY_WELCOME, 0);
         }
 
         function closeModal() {
